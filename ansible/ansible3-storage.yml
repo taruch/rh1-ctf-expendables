@@ -1,0 +1,23 @@
+---
+- name: Configure storage on webservers
+  hosts: webservers
+  roles:
+    - name: redhat.rhel_system_roles.storage
+      storage_pools:
+        - name: ctf-vg
+          type: lvm
+          disks:
+            - /dev/nvme1n1
+      volumes:
+        - name: ctf-lv
+          size: 1g
+          mount_point: "/extdrive"
+          fs_type: xfs
+          state: present
+
+   tasks:
+     - name: Set perms
+       ansible.builtin.file:
+         path: /extdrive
+         group: IT
+         mode: 0070
