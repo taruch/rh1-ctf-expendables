@@ -1,0 +1,55 @@
+---
+- name: ansible1
+  hosts: all
+  vars:
+    groups:
+      - sales
+      - it
+      - support
+      - sales
+      - services
+
+    users:
+      - username: Annabelle
+        groups: sales
+      - username: Bob
+        groups: it
+      - username: Carl
+        groups: support
+      - username: Dyson
+        groups: support
+      - username: Evert
+        groups: it
+      - username: Frank
+        groups: sales
+      - username: Gerry
+        groups: support
+      - username: Harold
+        groups: it
+      - username: Isabella
+        groups: services
+      - username: Jameson
+        groups: services
+
+  tasks:
+    - name: Verify that group exists
+      loop: "{{ groups }}"
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+
+    - name: Setup 10 users on Server2 named
+      loop: "{{ users }}"
+      ansible.builtin.user:
+        name: {{ item.username }}
+        state: present
+        shell: /bin/bash
+        password: '@#FD12”'
+        groups: "{{ item.groups }}"
+
+    - name: Set authorized key
+      loop: "{{ users }}"
+      authorized_key:
+        user: "{{ item.username }}"
+        state: present
+        key: "{{ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK }}"
