@@ -49,7 +49,7 @@
 
     - name: Set authorized key
       loop: "{{ users }}"
-      ansible.posix.authorized_key:
+      authorized_key:
         user: "{{ item.username }}"
         state: present
         key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFN90Xtfjxqs2ZpO0VqR1jr92mJiTx3IaEl/F+LiOZJK"
