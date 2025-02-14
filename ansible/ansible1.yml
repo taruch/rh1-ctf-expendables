@@ -41,7 +41,7 @@
     - name: Setup 10 users on Server2 named
       loop: "{{ users }}"
       ansible.builtin.user:
-        name: {{ item.username }}
+        name: "{{ item.username }}"
         state: present
         shell: /bin/bash
         password: '@#FD12”'
